@@ -1,9 +1,10 @@
-import type React from "react"
-import { Button } from "@/components/ui/button"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { X } from "lucide-react"
+import type React from "react";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { X } from "lucide-react";
+import { Outlet } from "react-router";
 
-export default function ChatLayout({ children }: { children: React.ReactNode }) {
+export default function ChatLayout() {
   return (
     <div className="flex h-screen bg-background">
       {/* Sidebar */}
@@ -85,7 +86,7 @@ export default function ChatLayout({ children }: { children: React.ReactNode }) 
               </Button>
             </div>
           </header>
-          {children}
+          <Outlet />
         </div>
 
         {/* Right Panel - Contact Details */}
@@ -108,7 +109,9 @@ export default function ChatLayout({ children }: { children: React.ReactNode }) 
 
             <div className="py-4 space-y-4">
               <div>
-                <h4 className="text-sm font-medium mb-2">Contact Information</h4>
+                <h4 className="text-sm font-medium mb-2">
+                  Contact Information
+                </h4>
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Email:</span>
@@ -153,6 +156,5 @@ export default function ChatLayout({ children }: { children: React.ReactNode }) 
         </div>
       </div>
     </div>
-  )
+  );
 }
-
