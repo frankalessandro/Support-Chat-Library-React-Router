@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import { ContactList } from "../components/ContactList";
-import { Outlet } from "react-router";
+import { Link, Outlet } from "react-router";
 import { ContactInfo } from "../components/ContactInfo";
 import { NoContactSelected } from "../components/NoContactSelected";
 import { ContactInfoSkeleton } from "../components/ContactInfoSkeleton";
@@ -17,7 +17,9 @@ export default function ChatLayout() {
         <div className="p-4 border-b">
           <div className="flex items-center gap-2">
             <div className="h-6 w-6 rounded-full bg-primary" />
+            <Link to="/chat">
             <span className="font-semibold">NexTalk</span>
+            </Link>
           </div>
         </div>
         <ContactList />
