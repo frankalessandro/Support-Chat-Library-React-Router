@@ -4,12 +4,15 @@ import { LoginPage } from "./auth/pages/LoginPage";
 import { Suspense, lazy } from "react";
 import { RegisterPage } from "./auth/pages/RegisterPage";
 import { sleep } from "./lib/sleep";
+//Lazy Loading
 const ChatLayout = lazy(async () => {
   await sleep(1500);
   return import("./chat/layout/ChatLayout");
 });
 
-import ChatPages from "./chat/pages/ChatPages";
+const ChatPages = lazy(async () => {
+  return import("./chat/pages/ChatPages");
+});
 
 export const AppRouter = () => {
   return (
@@ -24,11 +27,13 @@ export const AppRouter = () => {
         <Route
           path="/chat"
           element={
-            <Suspense fallback={
-              <div className="flex items-center justify-center h-screen">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-2 border-primary"></div>
-              </div>
-            }>
+            <Suspense
+              fallback={
+                <div className="flex items-center justify-center h-screen">
+                  <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-2 border-primary"></div>
+                </div>
+              }
+            >
               <ChatLayout />
             </Suspense>
           }

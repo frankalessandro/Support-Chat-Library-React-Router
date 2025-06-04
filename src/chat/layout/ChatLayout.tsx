@@ -1,10 +1,12 @@
-import type React from "react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { X } from "lucide-react";
 import { Outlet } from "react-router";
 
 export default function ChatLayout() {
+
+
+  
   return (
     <div className="flex h-screen bg-background">
       {/* Sidebar */}
