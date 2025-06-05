@@ -32,7 +32,7 @@ export const ContactList = () => {
               <NavLink
                 to={`/chat/${client.id}`}
                 className={({ isActive }) =>
-                  `w-full justify-start flex items-center rounded-sm p-2 transition-all duration-300 ${
+                  `w-full justify-start flex items-center rounded-sm p-2 transition-all duration-100 ${
                     isActive
                       ? "bg-gradient-to-r from-gray-100 to-gray-200 font-semibold shadow-sm border-l-4 border-green-500 pl-[calc(0.5rem-2px)]"
                       : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
@@ -40,7 +40,7 @@ export const ContactList = () => {
                 }
               >
                 <div
-                  className={`h-6 w-6 rounded-full mr-2 flex-shrink-0 flex items-center justify-center text-xs transition-all duration-300 ${
+                  className={`h-6 w-6 rounded-full mr-2 flex-shrink-0 flex items-center justify-center text-xs transition-all duration-100 ${
                     client.id === clientId 
                     ? "text-white bg-green-500 shadow-sm" 
                     : "text-gray-500 bg-gray-200 hover:bg-gray-300"
@@ -49,7 +49,7 @@ export const ContactList = () => {
                   {client.name.charAt(0).toUpperCase()}
                   {client.name.charAt(1)}
                 </div>
-                <span className={`transition-colors duration-300 ${client.id === clientId ? "text-gray-900" : "text-gray-500"}`}>
+                <span className={`transition-colors duration-100 ${client.id === clientId ? "text-gray-900" : "text-gray-500"}`}>
                   {client.name}
                 </span>
               </NavLink>
