@@ -31,8 +31,14 @@ export const AppRouter = () => {
           element={
             <Suspense
               fallback={
-                <div className="flex items-center justify-center h-screen">
-                  <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-2 border-primary"></div>
+                <div className="flex items-center justify-center h-screen bg-background">
+                  <div className="flex flex-col items-center gap-4">
+                    <div className="relative">
+                      <div className="h-12 w-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-8 w-8 border-4 border-secondary border-t-transparent rounded-full animate-spin [animation-direction:reverse]" />
+                    </div>
+                    <span className="text-sm text-muted-foreground">Loading conversation...</span>
+                  </div>
                 </div>
               }
             >
