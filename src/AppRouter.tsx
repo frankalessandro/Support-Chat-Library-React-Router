@@ -4,6 +4,9 @@ import { LoginPage } from "./auth/pages/LoginPage";
 import { Suspense, lazy } from "react";
 import { RegisterPage } from "./auth/pages/RegisterPage";
 import { sleep } from "./lib/sleep";
+import { PrivateRoute } from "./auth/components/PrivateRoute";
+import { useQuery } from "@tanstack/react-query";
+import { checkAuth } from "./fakeData/fakeData";
 //Lazy Loading
 const ChatLayout = lazy(async () => {
   await sleep(1500);
@@ -14,9 +17,38 @@ const ChatPages = lazy(async () => {
   return import("./chat/pages/ChatPages");
 });
 
-const NoChatSelectedPage = lazy(() => import("./chat/pages/NoChatSelectedPage"));
+const NoChatSelectedPage = lazy(
+  () => import("./chat/pages/NoChatSelectedPage")
+);
 
 export const AppRouter = () => {
+
+  const { data: user, isLoading, error, isError } = useQuery({
+    queryKey: ["auth"],
+    queryFn: () => {
+      const token = localStorage.getItem("token");
+      if (!token) throw new Error("No token");
+      return checkAuth(token);
+    },
+    retry: false,
+  })
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-background">
+        <div className="flex flex-col items-center gap-4">
+          <div className="relative">
+            <div className="h-12 w-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-8 w-8 border-4 border-secondary border-t-transparent rounded-full animate-spin [animation-direction:reverse]" />
+          </div>
+          <span className="text-sm text-muted-foreground">
+            Loading 
+          </span>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <BrowserRouter>
       <Routes>
@@ -37,17 +69,21 @@ export const AppRouter = () => {
                       <div className="h-12 w-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
                       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-8 w-8 border-4 border-secondary border-t-transparent rounded-full animate-spin [animation-direction:reverse]" />
                     </div>
-                    <span className="text-sm text-muted-foreground">Loading conversation...</span>
+                    <span className="text-sm text-muted-foreground">
+                      Loading
+                    </span>
                   </div>
                 </div>
               }
             >
-              <ChatLayout />
+              <PrivateRoute isAuthenticated={!!user}>
+                <ChatLayout />
+              </PrivateRoute>
             </Suspense>
           }
         >
           <Route index element={<NoChatSelectedPage />} />
-          <Route path='/chat/:clientId' element={<ChatPages />} />
+          <Route path="/chat/:clientId" element={<ChatPages />} />
         </Route>
 
         <Route path="/" element={<Navigate to="/auth" />} />
