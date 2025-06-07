@@ -6,22 +6,26 @@ import { Label } from "@/components/ui/label";
 import { Link, useNavigate } from "react-router";
 
 import LoginImage from "../../assets/LoginPhoto.jpg";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { loginUser } from "@/fakeData/fakeData";
-import { Loader2, LoaderCircleIcon } from "lucide-react";
+import { LoaderCircleIcon } from "lucide-react";
 
 export function LoginPage({
   className,
   ...props
 }: React.ComponentProps<"div">) {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const { mutate: loginMutation, isPending } = useMutation({
     mutationFn: loginUser,
     onSuccess: (data) => {
       localStorage.setItem("token", data.token);
 
-      console.log(data);
+      queryClient.invalidateQueries({
+        queryKey: ['user'],
+      });
+
       navigate("/chat", { replace: true });
     },
   });

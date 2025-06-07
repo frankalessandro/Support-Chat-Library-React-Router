@@ -24,7 +24,7 @@ const NoChatSelectedPage = lazy(
 export const AppRouter = () => {
 
   const { data: user, isLoading, error, isError } = useQuery({
-    queryKey: ["auth"],
+    queryKey: ['user'],
     queryFn: () => {
       const token = localStorage.getItem("token");
       if (!token) throw new Error("No token");

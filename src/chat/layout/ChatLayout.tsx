@@ -3,11 +3,23 @@ import { X } from "lucide-react";
 import { ContactList } from "../components/contact-deatils/ContactList";
 import { Link, Outlet } from "react-router";
 import { ContactDetails } from "../components/contact-deatils/ContactDetails";
+import { LogOut } from "lucide-react";
+import { useNavigate } from "react-router";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function ChatLayout() {
+  const queryClient = useQueryClient();
 
+  const navigate = useNavigate();
 
-  
+  const onLogout = () => {
+    queryClient.invalidateQueries({
+      queryKey: ["user"],
+    });
+    localStorage.removeItem("token");
+    navigate("/login", { replace: true });
+  };
+
   return (
     <div className="flex h-screen bg-background">
       {/* Sidebar */}
@@ -16,11 +28,22 @@ export default function ChatLayout() {
           <div className="flex items-center gap-2">
             <div className="h-6 w-6 rounded-full bg-primary" />
             <Link to="/chat">
-            <span className="font-semibold">NexTalk</span>
+              <span className="font-semibold">NexTalk</span>
             </Link>
           </div>
         </div>
         <ContactList />
+        <div className="p-4 border-t">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="cursor-pointer"
+            onClick={onLogout}
+          >
+            <LogOut className="h-4 w-4" />
+            LogOut
+          </Button>
+        </div>
       </div>
 
       {/* Main Content */}
