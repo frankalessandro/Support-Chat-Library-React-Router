@@ -1,6 +1,6 @@
 # React Router Practice Project
 
-> **Este proyecto forma parte del curso [React Router: Navegación declarativa y framework](https://devtalles.com/) de Fernando Herrera en Devtalles.**
+> **Este proyecto forma parte del curso [React Router: Navegación declarativa y framework](https://cursos.devtalles.com/courses/react-router) de Fernando Herrera en Devtalles.**
 
 Este proyecto es una práctica de integración de **React Router v7** en una aplicación moderna construida con **React** y **TypeScript**. Además, se utiliza **TanStack Query** para la gestión eficiente de datos y caché en el frontend, y **v0 ShadCN** junto a **TailwindCSS** para la UI.
 
