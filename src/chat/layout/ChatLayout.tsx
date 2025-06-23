@@ -1,49 +1,32 @@
-import { Button } from "@/components/ui/button";
-import { X } from "lucide-react";
-import { ContactList } from "../components/contact-deatils/ContactList";
-import { Link, Outlet } from "react-router";
-import { ContactDetails } from "../components/contact-deatils/ContactDetails";
-import { LogOut } from "lucide-react";
-import { useNavigate } from "react-router";
-import { useQueryClient } from "@tanstack/react-query";
+import { ContactList } from '../components/contact-deatils/ContactList';
+import { Link, Outlet, useParams } from 'react-router';
+import { ContactDetails } from '../components/contact-deatils/ContactDetails';
+import { useQuery } from '@tanstack/react-query';
+import { getClients } from '@/fakeData/fakeData';
 
 export default function ChatLayout() {
-  const queryClient = useQueryClient();
+  const { clientId } = useParams();
+  const { data: clients } = useQuery({
+    queryKey: ['clients'],
+    queryFn: () => getClients(),
+    staleTime: 60 * 60 * 1000,
+  });
 
-  const navigate = useNavigate();
-
-  const onLogout = () => {
-    queryClient.invalidateQueries({
-      queryKey: ["user"],
-    });
-    localStorage.removeItem("token");
-    navigate("/login", { replace: true });
-  };
+  const selectedClient = clients?.find((c) => c.id === clientId);
 
   return (
-    <div className="flex h-screen bg-background">
+    <div className="flex h-full bg-background">
       {/* Sidebar */}
       <div className="w-64 border-r bg-muted/10">
         <div className="p-4 border-b">
           <div className="flex items-center gap-2">
             <div className="h-6 w-6 rounded-full bg-primary" />
             <Link to="/chat">
-              <span className="font-semibold">NexTalk</span>
+              <span className="font-semibold">Chat</span>
             </Link>
           </div>
         </div>
         <ContactList />
-        <div className="p-4 border-t">
-          <Button
-            variant="ghost"
-            size="sm"
-            className="cursor-pointer"
-            onClick={onLogout}
-          >
-            <LogOut className="h-4 w-4" />
-            LogOut
-          </Button>
-        </div>
       </div>
 
       {/* Main Content */}
@@ -51,14 +34,11 @@ export default function ChatLayout() {
         <div className="flex-1 flex flex-col">
           {/* Header */}
           <header className="h-14 border-b px-4 flex items-center justify-between">
-            <div></div> {/* Empty div to maintain spacing */}
+            <div className="text-lg font-semibold">
+              {selectedClient ? selectedClient.name : 'Selecciona un chat'}
+            </div>
             <div className="flex items-center gap-2">
-              <Button variant="ghost" size="sm">
-                Save conversation
-              </Button>
-              <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                <X className="h-4 w-4" />
-              </Button>
+              {/* Puedes agregar acciones aquí si lo deseas */}
             </div>
           </header>
           <Outlet />

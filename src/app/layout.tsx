@@ -5,7 +5,7 @@ import { X } from "lucide-react"
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex h-screen bg-background">
+    <div className="flex h-full bg-background">
       {/* Sidebar */}
       <div className="w-64 border-r bg-muted/10">
         <div className="p-4 border-b">
@@ -74,17 +74,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <div className="flex-1 flex">
         <div className="flex-1 flex flex-col">
           {/* Header */}
-          <header className="h-14 border-b px-4 flex items-center justify-between">
-            <div></div> {/* Empty div to maintain spacing */}
-            <div className="flex items-center gap-2">
-              <Button variant="ghost" size="sm">
-                Save conversation
-              </Button>
-              <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                <X className="h-4 w-4" />
-              </Button>
-            </div>
-          </header>
+          
           {children}
         </div>
 

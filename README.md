@@ -1,54 +1,81 @@
-# React + TypeScript + Vite
+# React Router Practice Project
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> **Este proyecto forma parte del curso [React Router: Navegación declarativa y framework](https://devtalles.com/) de Fernando Herrera en Devtalles.**
 
-Currently, two official plugins are available:
+Este proyecto es una práctica de integración de **React Router v7** en una aplicación moderna construida con **React** y **TypeScript**. Además, se utiliza **TanStack Query** para la gestión eficiente de datos y caché en el frontend, y **v0 ShadCN** junto a **TailwindCSS** para la UI.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tecnologías principales
 
-## Expanding the ESLint configuration
+- **React** + **TypeScript**: Desarrollo de interfaces modernas y tipadas.
+- **React Router v7**: Manejo avanzado de rutas, layouts anidados y navegación.
+- **TanStack Query**: Fetching, caching y sincronización de datos asíncronos.
+- **v0 & ShadCN**: Componentes UI modernos y accesibles.
+- **TailwindCSS**: Utilidades para estilos rápidos y responsivos.
+- **Vite**: Herramienta de desarrollo rápida para proyectos React.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Características implementadas
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+### React Router
+- **Rutas**: Definición de rutas principales y secundarias.
+- **Rutas padres (Nested Routes)**: Layouts anidados para estructurar la navegación.
+- **Rutas hijas**: Subrutas dentro de rutas principales.
+- **Outlets**: Renderizado de componentes hijos en layouts padres.
+- **Segmentación**: Organización de rutas por módulos (auth, chat, etc).
+- **useParams**: Acceso a parámetros dinámicos de la URL.
+- **Parámetros de rutas**: Rutas dinámicas para chats y detalles.
+- **Navegación manual**: Uso de hooks para redirección programática.
+- **Link y NavLink**: Navegación declarativa y estilos activos.
+- **Suspense y Lazy Load**: Carga diferida de componentes para optimizar el rendimiento.
+- **Rutas privadas**: Protección de rutas según autenticación.
+
+### TanStack Query
+- **Mutations**: Envío y actualización de datos (por ejemplo, mensajes de chat).
+- **Caché**: Almacenamiento y reutilización de datos consultados.
+- **Invalidación de queries**: Refresco de datos tras acciones relevantes (logout, mutaciones).
+- **Query Client como gestor de estado**: Centralización y control del estado de datos asíncronos.
+
+## Estructura general del proyecto
+
+```
+react-router-course/
+├── src/
+│   ├── app/           # Rutas y layouts principales
+│   ├── auth/          # Páginas y layouts de autenticación
+│   ├── chat/          # Componentes, layouts y páginas de chat
+│   ├── components/    # Componentes UI reutilizables
+│   ├── fakeData/      # Datos simulados y utilidades
+│   └── ...
+├── public/
+├── package.json
+├── tsconfig.json
+└── ...
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Instalación y uso
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+1. **Clona el repositorio:**
+   ```bash
+   git clone <url-del-repo>
+   cd react-router-course
+   ```
+2. **Instala las dependencias:**
+   ```bash
+   npm install
+   ```
+3. **Inicia el servidor de desarrollo:**
+   ```bash
+   npm run dev
+   ```
+4. Abre [http://localhost:5173](http://localhost:5173) en tu navegador para ver la app.
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## Características principales
+
+- Navegación protegida y pública usando React Router.
+- Layouts anidados y rutas dinámicas para chats y autenticación.
+- Simulación de datos de usuarios, clientes y mensajes.
+- Gestión de estado y fetching de datos con TanStack Query.
+- Componentes reutilizables.
+
+---
+
+> Proyecto creado con fines educativos para practicar conceptos modernos de enrutamiento, manejo de datos y UI en React.

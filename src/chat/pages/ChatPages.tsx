@@ -2,20 +2,53 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Copy, Download, ThumbsUp, ThumbsDown, Send, MessageSquare } from 'lucide-react';
+import {
+  Copy,
+  Download,
+  ThumbsUp,
+  ThumbsDown,
+  Send,
+  MessageSquare,
+} from 'lucide-react';
 import { useParams } from 'react-router';
-import { getClientMessages } from '@/fakeData/fakeData';
-import { useQuery } from '@tanstack/react-query';
+import { getClientMessages, sendMessage } from '@/fakeData/fakeData';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ChatSkeleton } from '../components/ChatSkeleton';
+import { Message } from '../interfaces/chat.interfaces';
 
 export default function ChatPages() {
   const { clientId = '' } = useParams();
+
+  const queryClient = useQueryClient();
 
   const [input, setInput] = useState('');
   const { data: messages = [], isLoading } = useQuery({
     queryKey: ['messages', clientId],
     queryFn: () => getClientMessages(clientId),
   });
+
+  const { mutate: sendMessageMutation } = useMutation({
+    mutationFn: sendMessage,
+    onSuccess: (newMessage) => {
+      queryClient.setQueryData(
+        ['messages', clientId],
+        (oldMessages: Message[]) => [...oldMessages, newMessage]
+      );
+    },
+  });
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    sendMessageMutation({
+      clientId: clientId ?? '',
+      content: input,
+      createdAt: new Date(),
+      sender: 'client',
+    });
+
+    setInput('');
+  };
 
   if (isLoading) {
     return <ChatSkeleton />;
@@ -80,29 +113,31 @@ export default function ChatPages() {
         </div>
       </ScrollArea>
 
-      {
-        messages.length === 0 && (
-          <div className="flex items-center justify-center h-[calc(100vh-200px)]">
-            <div className="text-center space-y-2">
-              <MessageSquare className="h-8 w-8 mx-auto text-muted-foreground" />
-              <p className="text-sm text-muted-foreground">There are no messages in this chat.</p>
-            </div>
+      {messages.length === 0 && (
+        <div className="flex items-center justify-center h-[calc(100vh-200px)]">
+          <div className="text-center space-y-2">
+            <MessageSquare className="h-8 w-8 mx-auto text-muted-foreground" />
+            <p className="text-sm text-muted-foreground">
+              There are no messages in this chat.
+            </p>
           </div>
-        )
-      }
-      <div className="p-4 border-t">
-        <div className="flex items-center gap-2">
-          <Textarea
-            placeholder="Type a message as a customer"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            className="min-h-[44px] h-[44px] resize-none py-3"
-          />
-          <Button className="h-[44px] px-4 flex items-center gap-2">
-            <Send className="h-4 w-4" />
-            <span>Send</span>
-          </Button>
         </div>
+      )}
+      <div className="p-4 border-t">
+        <form onSubmit={handleSubmit}>
+          <div className="flex items-center gap-2">
+            <Textarea
+              placeholder="Type a message as a customer"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              className="min-h-[44px] h-[44px] resize-none py-3"
+            />
+            <Button className="h-[44px] px-4 flex items-center gap-2">
+              <Send className="h-4 w-4" />
+              <span>Send</span>
+            </Button>
+          </div>
+        </form>
       </div>
     </div>
   );
